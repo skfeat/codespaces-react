@@ -1,0 +1,8 @@
+.bottom-nav {
+    width: 100%;
+  }
+  
+  .bottom-nav .MuiBottomNavigationAction-root.Mui-selected {
+    color: #1976d2; /* change the active icon color to blue */
+  }
+  
