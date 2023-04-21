@@ -1,5 +1,6 @@
 import React from 'react';
 import RecentContent from './RecentContent';
+import RecentContent2 from './RecentContent2';
 
 export default function Recent() { 
   return (
@@ -9,6 +10,7 @@ export default function Recent() {
       </h2>
       <div style={{paddingLeft:8,paddingRight:8}}>
   <RecentContent/>
+  <RecentContent2/>
 </div>
 
     </>

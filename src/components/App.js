@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { Link } from 'react-router-dom';
 function NavBar() {
 
 
@@ -13,9 +13,11 @@ function NavBar() {
           <b>Stream アニメ </b> 
         </Typography>
         <div style={{ flexGrow: 1 }} />
-          <IconButton sx={{ color: 'white', fontSize: 28, fontWeight: 'bold' }}>
-            <SearchIcon />
-          </IconButton>
+        <Link to="/video">
+        <IconButton sx={{ color: 'white', fontSize: 28, fontWeight: 'bold' }}>
+          <SearchIcon />
+        </IconButton>
+      </Link>
       </Toolbar>
     </AppBar>
   );
