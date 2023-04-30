@@ -26,3 +26,10 @@
 .small {
   font-size: 0.75rem;
 }
+
+@media (max-width: 767px) {
+  iframe {
+    width: 95%;
+    height: 260px;
+  }
+}

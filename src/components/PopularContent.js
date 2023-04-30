@@ -1,20 +1,31 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import { Button, Grid, Paper, Skeleton } from '@mui/material';
+import { Grid, Paper, Skeleton ,Button} from '@mui/material';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import { Link } from 'react-router-dom';
+
+
 
 export default function RecentContent() {
   const [recentAnimeList, setRecentAnimeList] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch('https://gogoanime.consumet.stream/popular')
-      .then((response) => response.json())
-      .then((animelist) => {
-        const recentAnimeData = animelist.slice(0, 20); // Get data for 20 animes
+    const fetchData = async () => {
+      try {
+        const pages = [1, 2, 3, 4, 5];
+        const requests = pages.map((page) => fetch(`https://gogoanime.consumet.stream/popular?page=${page}`));
+        const responses = await Promise.all(requests);
+        const data = await Promise.all(responses.map((response) => response.json()));
+        const recentAnimeData = data.flat().slice(0, 200); // Get data for 200 animes
         setRecentAnimeList(recentAnimeData);
         setLoading(false);
-      });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -22,13 +33,14 @@ export default function RecentContent() {
       {loading ? (
         // Show skeleton while data is being fetched
         <>
-          {Array.from({ length: 20 }).map((_, index) => (
+          {Array.from({ length: 200 }).map((_, index) => (
             <Grid item xs={6} sm={6} md={3} key={index}>
-              <Paper sx={{ borderRadius: '10px', marginBottom: 0 }} elevation={5}>
+              <Paper sx={{ borderRadius: '10px', marginBottom: 0 ,paddingBottom:1}} elevation={5}>
                 <Skeleton animation="wave" variant="rectangular" height={240}  style={{ borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }} />
-                <Skeleton animation="wave" height={30} width="80%" style={{ marginBottom: 0,marginLeft:2 }} />
-                <Skeleton animation="wave" height={20} width="50%" style={{  marginBottom: 4,marginLeft:2 }} />
-              </Paper>
+                <center><Skeleton animation="wave" height={30} width="80%" style={{ marginBottom: 0,marginLeft:2 }} />
+                <Skeleton animation="wave" height={20} width="60%" style={{  marginBottom: 4,marginLeft:2 }} />
+                <Skeleton animation="wave" height={30} width="40%" style={{  marginBottom: 1,marginLeft:2 }} />
+                </center> </Paper>
             </Grid>
           ))}
         </>
@@ -38,7 +50,7 @@ export default function RecentContent() {
           {recentAnimeList.map((recentAnime) => (
             <Grid item xs={6} sm={6} md={3} key={recentAnime.id}>
                 
-              <Paper sx={{ borderRadius: '10px', marginBottom: 0 }} elevation={5}>
+              <Paper sx={{ borderRadius: '10px', marginBottom: 0 ,paddingBottom:1}} elevation={5}>
                 <img
                   src={recentAnime.animeImg}
                   alt="random"
@@ -49,12 +61,19 @@ export default function RecentContent() {
 
                 <center>
                   <Typography variant="body1" sx={{ p: 0 }}>
-                    <b>{recentAnime.animeTitle}</b>
+                    <b>{recentAnime.animeId.split('-')
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  .join(' ')}</b>
                   </Typography>
-                  <Button variant="text" size="small" sx={{ m: 1 }}>
-                    <PlayCircleOutlineIcon />
-                   Watch
-                  </Button>
+                  <Typography variant="body2" sx={{ p: 0 }}>
+                   Released {recentAnime.releasedDate}
+                  </Typography>
+                  <Link to={`/watch/${recentAnime.animeId}-episode-1`}>
+                        <Button variant="text" size="small">
+                          <PlayCircleOutlineIcon/>
+                          Watch
+                        </Button>
+                      </Link>
                 </center>
               </Paper>
             </Grid>

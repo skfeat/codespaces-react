@@ -9,11 +9,12 @@ function NavBar() {
     <AppBar position="fixed">
       <Toolbar>
         <PlayCircleIcon align="center" />
-        <Typography variant="h6" fontFamily="Ubuntu" align="center" sx={{ flexShrink: 0 }}>
-          <b>Stream アニメ </b> 
-        </Typography>
+        <Typography variant="h6" fontFamily="Ubuntu" align="center" sx={{ flexShrink: 0, textAlign: "center" }}>
+  <b>AniStream</b>
+</Typography>
+
         <div style={{ flexGrow: 1 }} />
-        <Link to="/video">
+        <Link to="/search">
         <IconButton sx={{ color: 'white', fontSize: 28, fontWeight: 'bold' }}>
           <SearchIcon />
         </IconButton>
